@@ -146,7 +146,7 @@ const HistoricData = ({ sourceValue, targetValue }) => {
             })}
           </div>
           <div className="flex flex-wrap my-auto py-5">
-            <div className="flex">
+            <div className="flex flex-wrap">
             <div className="mr-3">
               <p className="gray-200 text-sm poppins-regular mb-1">
                 Start Date
