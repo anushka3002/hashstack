@@ -12,7 +12,6 @@ const reducer = combineReducers({
 let initialState = {};
 const middleware = [thunk];
 
-// Create store with middleware and Redux DevTools
 const store = createStore(
   reducer,
   initialState,
