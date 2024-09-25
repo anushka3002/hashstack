@@ -20,6 +20,7 @@ const CurrencyConverter = () => {
   const [convertedValue, setConvertedValue] = useState(0);
   const [trackExchange, setTrackExchange] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  var exchangeRatesApi = require("exchange-rates-api")
   const dispatch = useDispatch()
   const {
     register,
@@ -41,8 +42,6 @@ const CurrencyConverter = () => {
     const endDate = formatDate(today);
     changedTime.setDate(today.getDate() - 365);
     const startDate = formatDate(changedTime);
-
-  var exchangeRatesApi = require("exchange-rates-api")
 
   const onSubmit = (data) => {
     if(sourceValue == targetValue){

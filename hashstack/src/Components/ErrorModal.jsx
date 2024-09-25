@@ -14,7 +14,7 @@ const ErrorModal = ({ isOpen, onClose, errorValue }) => {
         <>
             <Modal returnFocusOnClose={false} isOpen={isOpen} onClose={onClose} isCentered>
                 <ModalOverlay />
-                <ModalContent>
+                <ModalContent mx={'30px'}>
                     <ModalHeader p={0} w={'100%'}>
                     </ModalHeader>
                     <ModalBody>
