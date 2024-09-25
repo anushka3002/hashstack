@@ -160,6 +160,9 @@
   background-color: #4336C4;
   border: 1px solid #4336C4;
 }
+.datepicker-popper {
+  z-index: 1000; /* Ensure this is higher than your chart's z-index */
+}
 
 .blue-300:hover {
   background-color: #FFFFFF;
@@ -169,6 +172,16 @@
 
 .red-100 {
   color: #B50628
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
+  box-shadow: 0 0 0px 1000px white inset;
+  -webkit-text-fill-color: black; 
+}
+
+input:focus {
+  outline: none;
 }
 
 @keyframes App-logo-spin {

@@ -19,6 +19,7 @@ const CurrencyConverter = () => {
   const [currencyError, setCurrencyError] = useState('')
   const [convertedValue, setConvertedValue] = useState(0);
   const [trackExchange, setTrackExchange] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const dispatch = useDispatch()
   const {
     register,
@@ -30,6 +31,9 @@ const CurrencyConverter = () => {
 
   useEffect(()=>{
     dispatch(currencyAction())
+    setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
   },[])
 
   const today = new Date();
@@ -74,9 +78,9 @@ const CurrencyConverter = () => {
         e.stopPropagation();
         setCurrencyDropdown("");
       }}
-      className="flex w-full h-full relative"
+      className="flex w-full h-full"
     >
-      <div className="w-full h-[400px] relative">
+      <div className="w-full h-[400px]">
         <div
           className="w-full h-[400px] bg-cover bg-center"
           style={{
@@ -86,16 +90,17 @@ const CurrencyConverter = () => {
         >
           <div className="flex">
             <div className="w-full px-4">
-              <p className="text-3xl poppins-bold text-white pt-20 font-bold text-center">
+              <p className="poppins-regular text-white mt-4 text-center md:text-left">Currency.ex | Hashstack</p>
+              <p className={`text-3xl transition-opacity duration-1000 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-30'} poppins-bold text-white pt-10 md:pt-20 font-bold text-center`}>
                 Seamless Currency Conversion
               </p>
-              <p className="text-lg text-center poppins-regular text-white pt-3">
+              <p className={`text-lg text-center transition-opacity duration-1000 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-30'} poppins-regular text-white pt-3`}>
                 Convert currencies effortlessly in real-time with the most
                 accurate rates, tailored for your financial needs.
               </p>
             </div>
           </div>
-          <div className="mt-20 mx-auto bg-white rounded-lg shadow-lg w-[80%] pt-5 pb-20 px-10">
+          <div className="mt-20 mx-auto bg-white rounded-lg shadow-lg w-[100%] md:w-[80%] pt-5 pb-20 px-8">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap w-full justify-between">
                 <div className="w-[320px] pt-5">
@@ -108,10 +113,10 @@ const CurrencyConverter = () => {
                           message: "Please enter a valid amount",
                         },
                       })}
-                      className="w-[89%] ml-[2px] px-1 py-3 focus:outline-none"
+                      className="w-[89%] bg-white ml-[2px] px-1 py-3 focus:outline-none"
                       name="amount"
                     />
-                    {
+                    {watch('amount') &&
                       <img
                         onClick={() => setValue("amount", "")}
                         className="mr-2 cursor-pointer"
@@ -147,13 +152,6 @@ const CurrencyConverter = () => {
                     <img width="24px" className="mr-2" src={currencyDropdown === "source" ? dropdownup : dropdown} />
                   </div>
                   {currencyDropdown === "source" && (
-                    <div
-                      className={`transition-all duration-300 ease-in-out transform ${
-                        currencyDropdown === "source"
-                          ? "scale-100 opacity-100"
-                          : "scale-95 opacity-0"
-                      } origin-top`}
-                    >
                       <div
                         onClick={(e) => e.stopPropagation()}
                         className="shadow-md z-20 rounded-md mt-1 absolute w-full bg-white max-h-[250px] overflow-y-scroll"
@@ -163,28 +161,29 @@ const CurrencyConverter = () => {
                         <p onClick={() => {
                                 setValue("source", e);
                                 setSourceValue(e);
+                                setTrackExchange(false);
                                 setCurrencyDropdown("");
                                 e == targetValue ? setCurrencyError('Please select different target currency') : setCurrencyError('')
                               }} className="hover:bg-[#F7F6FE] text-sm my-auto pl-2 py-2 cursor-pointer">{e}</p>
                         </>)})}
                       </div>
-                    </div>
                   )}
                 </div>
 
                 {/* exchange values */}
-                {/* <div
+                <div
                   onClick={() => {
                     setConvertFlag(false);
+                    setTrackExchange(false);
                     setTargetValue(sourceValue);
                     setSourceValue(targetValue);
                   }}
-                  className={`border cursor-pointer pt-10 mt-7 ${
+                  className={`mx-auto md:mx-0 cursor-pointer mt-7 ${
                     errors.amount || currencyError ? "mb-5" : ""
                   } px-4 rounded-full items-center justify-center flex`}
                 >
                   <img width={"16px"} src={exchange} />
-                </div> */}
+                </div>
 
                 <div className="w-[320px] relative pt-5">
                   <p className="poppins-medium">Target currency</p>
@@ -195,7 +194,8 @@ const CurrencyConverter = () => {
                         ? setCurrencyDropdown("")
                         : setCurrencyDropdown("target");
                     }}
-                    className="w-[100%] flex border rounded-md shadow-sm mt-1"
+                    style={{zIndex:0}}
+                    className="w-[100%] z-10 flex border rounded-md shadow-sm mt-1"
                   >
                     <input
                       readOnly={true}
@@ -214,25 +214,18 @@ const CurrencyConverter = () => {
                   )}
 
                   {currencyDropdown === "target" && (
-                    <div
-                      className={`transition-all duration-300 ease-in-out transform ${
-                        currencyDropdown === "target"
-                          ? "scale-100 opacity-100"
-                          : "scale-95 opacity-0"
-                      } origin-top`}
-                    >
                       <div className="shadow-md z-20 rounded-md mt-1 absolute w-full bg-white max-h-[250px] overflow-y-scroll">
                         {Object.keys(exchangeRatesApi.currencies).map((e)=>{
                         return(<>
                         <p onClick={() => {
                                 setValue("target", e);
                                 setTargetValue(e);
+                                setTrackExchange(false);
                                 setCurrencyDropdown("");
                                 e == sourceValue ? setCurrencyError('Please select different target currency') : setCurrencyError('')
                               }} className="hover:bg-[#F7F6FE] text-sm my-auto pl-2 py-2 cursor-pointer">{e}</p>
                         </>)})}
                       </div>
-                    </div>
                   )}
                 </div>
               </div>
@@ -260,7 +253,7 @@ const CurrencyConverter = () => {
                     rate trends.
                     <br />
                     Make informed decisions by viewing past performance after
-                    clicking convert.
+                    proceeding with convert.
                   </p>
                 </div>
                 <div className="flex mt-6">

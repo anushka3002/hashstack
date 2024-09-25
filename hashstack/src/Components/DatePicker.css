@@ -1,0 +1,57 @@
+/* Set the background color of the header */
+.react-datepicker__header {
+    background-color: #F7F6FE; /* Replace with your desired blue color */
+    color: #fff; /* Replace with the text color you want */
+  }
+  
+  /* Set the background color of the date area */
+  .react-datepicker__month-container {
+    background-color: #fff; /* Replace with the desired white color */
+    color: #696969; /* Replace with the text color you want */
+  }
+  
+  /* Set the background color of the selected date */
+  .react-datepicker__day--selected {
+    background-color: #837EE6; /* Replace with a darker shade of blue if needed */
+  }
+  
+  /* Set the hover effect color for the dates */
+  .react-datepicker__day:hover {
+    background-color: #F7F6FE; /* Replace with a lighter shade of blue or any other color */
+  }
+  
+  /* Set the color of the month and year text */
+  .react-datepicker__current-month,
+  .react-datepicker__month-read-view,
+  .react-datepicker__year-read-view {
+    color: #696969; /* Replace with the text color you want */
+  }
+  
+  /* Set the color of the weekdays */
+  .react-datepicker__day-name,
+  .react-datepicker__day {
+    color: #696969; /* Replace with the text color you want */
+  }
+  
+  /* Set the color of the today button */
+  .react-datepicker__today-button {
+    background-color: #6A83DF; /* Replace with a shade of blue */
+  }
+  
+  /* Customize the calendar icon */
+  .react-datepicker-popper .react-datepicker_input-container .react-datepicker_calendar-icon {
+    border: 1px solid #000; /* Replace with the desired border color */
+    border-left: none;
+    color: #000; /* Replace with the desired icon color */
+    padding: 5px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    z-index: 1000;
+    transform: translateY(-50%);
+  }
+  
+  /* Adjust the input field padding to make space for the icon */
+  .react-datepicker-popper .react-datepicker__input-container input {
+    padding-right: 25px; /* Adjust as needed */
+  }
