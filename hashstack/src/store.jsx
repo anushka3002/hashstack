@@ -1,11 +1,12 @@
 import { legacy_createStore as createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import { currencyReducer, exchangeReducer, historicExchangeReducer } from './reducer/currencyReducer';
+import { currencyDetailReducer, currencyReducer, exchangeReducer, historicExchangeReducer } from './reducer/currencyReducer';
 
 const reducer = combineReducers({
   currencyData: currencyReducer,
   exchangeData: exchangeReducer,
-  historicData: historicExchangeReducer
+  historicData: historicExchangeReducer,
+  currencyDetailData: currencyDetailReducer
 });
 
 let initialState = {};

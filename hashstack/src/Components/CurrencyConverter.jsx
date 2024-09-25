@@ -1,17 +1,28 @@
-import bg from "../images/bg.png";
+import bg from "../images/bg-image.avif";
+import usd from "../images/USFlag.png";
+import ind from "../images/IndiaFlag.png";
 import exchange from "../images/svg/exchange.svg";
 import dropdownup from "../images/svg/dropdownup.svg";
 import dropdown from "../images/svg/dropdown.svg";
 import xCircle from "../images/svg/x-circle.svg";
+
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector} from  "react-redux"
-import { currencyAction, exchangeAction, historicExchangeAction } from "../action/currencyAction";
+import { currencyAction, currencyDetailAction, exchangeAction, historicExchangeAction } from "../action/currencyAction";
 import HistoricData from "./HistoricData";
 import { formatDate } from "../constant";
 
 const CurrencyConverter = () => {
   const {exchangeData}  = useSelector(state => state.exchangeData)
+  const {currencyDetailData}  = useSelector(state => state.currencyDetailData)
+  const [sourceSymbol, setSourceSymbol] = useState('$')
+  const [targetSymbol, setTargetSymbol] = useState('₹')
+ const [sourceName,setSourceName] =useState('United States Dollar')
+ const [sourceImage,setSourceImage] =useState('usd')
+ const [targetName,setTargetName] =useState('Indian Rupee')
+ const [targetImage,setTargetImage] =useState('ind')
+ 
   const [sourceValue, setSourceValue] = useState('USD');
   const [targetValue, setTargetValue] = useState('INR');
   const [currencyDropdown, setCurrencyDropdown] = useState("");
@@ -32,6 +43,7 @@ const CurrencyConverter = () => {
 
   useEffect(()=>{
     dispatch(currencyAction())
+    dispatch(currencyDetailAction())
     setTimeout(() => {
       setIsVisible(true);
     }, 100);
@@ -84,7 +96,7 @@ const CurrencyConverter = () => {
           className="w-full h-[400px] bg-cover bg-center"
           style={{
             backgroundImage:
-              "url(https://img.freepik.com/premium-photo/abstract-108-background-wallpaper-gradient_792836-190218.jpg)",
+              `url(${bg})`,
           }}
         >
           <div className="flex">
@@ -105,6 +117,7 @@ const CurrencyConverter = () => {
                 <div className="w-[320px] pt-5">
                   <p className="poppins-medium">Amount</p>
                   <div className="w-[100%] flex border rounded-md shadow-sm mt-1">
+                    <p className="my-auto ml-2">{sourceSymbol}</p>
                     <input
                       {...register("amount", {
                         pattern: {
@@ -112,7 +125,7 @@ const CurrencyConverter = () => {
                           message: "Please enter a valid amount",
                         },
                       })}
-                      className="w-[89%] bg-white ml-[2px] px-1 py-3 focus:outline-none"
+                      className="w-[89%] bg-white ml-[1px] py-3 focus:outline-none"
                       name="amount"
                     />
                     {watch('amount') &&
@@ -129,6 +142,8 @@ const CurrencyConverter = () => {
                     </p>
                   )}
                 </div>
+
+                {/* source currency */}
                 <div className="w-[320px] relative pt-5">
                   <p className="poppins-medium">Source currency</p>
                   <div
@@ -140,12 +155,13 @@ const CurrencyConverter = () => {
                     }}
                     className="w-[100%] flex border rounded-md shadow-sm mt-1"
                   >
+                    <div className="my-auto ml-2"><img width={'20px'} className="my-auto" height={'20px'} src={sourceImage == 'usd' ? usd : sourceImage == 'ind' ? ind : sourceImage}/></div>
                     <input
                       value={
-                        sourceValue
+                        sourceValue + ' ' + sourceName + ' ' + '(' + sourceSymbol + ')'
                       }
                       readOnly={true}
-                      className="w-[89%] mx-2 py-3 focus:outline-none"
+                      className="w-[89%] ml-1 py-3 focus:outline-none"
                       name="source"
                     />
                     <img width="24px" className="mr-2" src={currencyDropdown === "source" ? dropdownup : dropdown} />
@@ -156,15 +172,24 @@ const CurrencyConverter = () => {
                         className="shadow-md z-20 rounded-md mt-1 absolute w-full bg-white max-h-[250px] overflow-y-scroll"
                       >
                         {Object.keys(exchangeRatesApi.currencies).map((e)=>{
-                        return(<>
-                        <p onClick={() => {
-                                setValue("source", e);
-                                setSourceValue(e);
-                                setTrackExchange(false);
-                                setCurrencyDropdown("");
-                                e == targetValue ? setCurrencyError('Please select different target currency') : setCurrencyError('')
-                              }} className="hover:bg-[#F7F6FE] text-sm my-auto pl-2 py-2 cursor-pointer">{e}</p>
-                        </>)})}
+                          const matchedCurrencyDetail =currencyDetailData?.data && currencyDetailData?.data.find(
+                            (item) => item.currencies && item.currencies[e]
+                          );                          
+                        return(<div onClick={() => {
+                          setValue("source", e);
+                          setSourceSymbol(matchedCurrencyDetail?.currencies[e].symbol)
+                          setSourceValue(e);
+                          setTrackExchange(false);
+                          setSourceName(matchedCurrencyDetail?.currencies[e].name);
+                          setSourceImage(matchedCurrencyDetail?.flags?.png)
+                          setCurrencyDropdown("");
+                          e == targetValue ? setCurrencyError('Please select different target currency') : setCurrencyError('')
+                        }} className="hover:bg-[#F7F6FE] text-sm my-auto pl-2 py-2 cursor-pointer flex">
+                        <div className="h-[10px] mt-1"><img width={'20px'} className="my-auto" src={matchedCurrencyDetail?.flags?.png}/></div>
+                        <p className="mx-2 my-auto">{e}</p>
+                              {currencyDetailData?.data && <p className="mr-2">{matchedCurrencyDetail?.currencies[e].name}</p>}
+                              {currencyDetailData?.data && <p>({matchedCurrencyDetail?.currencies[e].symbol})</p>}
+                        </div>)})}
                       </div>
                   )}
                 </div>
@@ -176,6 +201,12 @@ const CurrencyConverter = () => {
                     setTrackExchange(false);
                     setTargetValue(sourceValue);
                     setSourceValue(targetValue);
+                    setSourceSymbol(targetSymbol);
+                    setTargetSymbol(sourceSymbol);
+                    setTargetImage(sourceImage);
+                    setSourceImage(targetImage);
+                    setSourceName(targetName);
+                    setTargetName(sourceName)
                   }}
                   className={`mx-auto md:mx-0 cursor-pointer mt-7 ${
                     errors.amount || currencyError ? "mb-5" : ""
@@ -184,6 +215,7 @@ const CurrencyConverter = () => {
                   <img width={"16px"} src={exchange} />
                 </div>
 
+                  {/* target currency */}
                 <div className="w-[320px] relative pt-5">
                   <p className="poppins-medium">Target currency</p>
                   <div
@@ -196,10 +228,11 @@ const CurrencyConverter = () => {
                     style={{zIndex:0}}
                     className="w-[100%] z-10 flex border rounded-md shadow-sm mt-1"
                   >
+                    <div className="my-auto ml-2"><img width={'20px'} className="my-auto" height={'20px'} src={targetImage == 'ind' ? ind : targetImage == 'usd' ? usd : targetImage}/></div>
                     <input
                       readOnly={true}
                       value={
-                        targetValue
+                        targetValue + ' ' + targetName + ' ' + '(' + targetSymbol + ')'
                       }
                       className="w-[89%] bg-white ml-1 px-1 py-3 focus:outline-none"
                       name="target"
@@ -213,18 +246,30 @@ const CurrencyConverter = () => {
                   )}
 
                   {currencyDropdown === "target" && (
-                      <div className="shadow-md z-20 rounded-md mt-1 absolute w-full bg-white max-h-[250px] overflow-y-scroll">
-                        {Object.keys(exchangeRatesApi.currencies).map((e)=>{
-                        return(<>
-                        <p onClick={() => {
-                                setValue("target", e);
-                                setTargetValue(e);
-                                setTrackExchange(false);
-                                setCurrencyDropdown("");
-                                e == sourceValue ? setCurrencyError('Please select different target currency') : setCurrencyError('')
-                              }} className="hover:bg-[#F7F6FE] text-sm my-auto pl-2 py-2 cursor-pointer">{e}</p>
-                        </>)})}
-                      </div>
+                      <div
+                      onClick={(e) => e.stopPropagation()}
+                      className="shadow-md z-20 rounded-md mt-1 absolute w-full bg-white max-h-[250px] overflow-y-scroll"
+                    >
+                      {Object.keys(exchangeRatesApi.currencies).map((e)=>{
+                        const matchedCurrencyDetail =currencyDetailData?.data && currencyDetailData?.data.find(
+                          (item) => item.currencies && item.currencies[e]
+                        );                          
+                      return(<div onClick={() => {
+                        setValue("target", e);
+                        setTargetValue(e);
+                        setTargetName(matchedCurrencyDetail?.currencies[e].name);
+                        setTargetImage(matchedCurrencyDetail?.flags?.png)
+                        setTargetSymbol(matchedCurrencyDetail?.currencies[e].symbol)
+                        setTrackExchange(false);
+                        setCurrencyDropdown("");
+                        e == targetValue ? setCurrencyError('Please select different target currency') : setCurrencyError('')
+                      }} className="hover:bg-[#F7F6FE] text-sm my-auto pl-2 py-2 cursor-pointer flex">
+                      <div className="h-[10px] mt-1"><img width={'20px'} className="my-auto" src={matchedCurrencyDetail?.flags?.png}/></div>
+                      <p className="mx-2 my-auto">{e}</p>
+                            {currencyDetailData?.data && <p className="mr-2">{matchedCurrencyDetail?.currencies[e].name}</p>}
+                            {currencyDetailData?.data && <p>({matchedCurrencyDetail?.currencies[e].symbol})</p>}
+                      </div>)})}
+                    </div>
                   )}
                 </div>
               </div>
@@ -233,7 +278,7 @@ const CurrencyConverter = () => {
               {convertFlag && (
                 <div className="w-full mt-6">
                   <p className="text-3xl gray-700 mt-1 poppins-semibold">
-                    {convertedValue ?? 0}
+                    {targetSymbol} {convertedValue ?? 0}
                   </p>
                 </div>
               )}
