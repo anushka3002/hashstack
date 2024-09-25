@@ -145,9 +145,9 @@ const HistoricData = ({ sourceValue, targetValue }) => {
               );
             })}
           </div>
-          <div className="flex flex-wrap my-auto py-5">
+          <div className="flex flex-wrap my-auto pb-5 pt-3">
             <div className="flex flex-wrap">
-            <div className="mr-3">
+            <div className="mr-3 pt-2">
               <p className="gray-200 text-sm poppins-regular mb-1">
                 Start Date
               </p>
@@ -158,7 +158,7 @@ const HistoricData = ({ sourceValue, targetValue }) => {
                 placeholderText="DD/MM/YY"
               />
             </div>
-            <div className="mr-3">
+            <div className="mr-3 pt-2">
               <p className="gray-200 text-sm poppins-regular mb-1">End Date</p>
               <ReactDatePicker
                 className="z-20 border p-2 rounded-md text-sm poppins-regular"
@@ -176,7 +176,7 @@ const HistoricData = ({ sourceValue, targetValue }) => {
                   : setErrorValue("empty");
                 onOpen();
               }}
-              className="border mx-auto rounded-md border-[#4336C4] mt-6 px-3 cursor-pointer duration-300 hover:text-white hover:bg-[#4336C4] text-[#4336C4]"
+              className="border mx-auto rounded-md border-[#4336C4] mt-8 px-3 cursor-pointer duration-300 hover:text-white hover:bg-[#4336C4] text-[#4336C4]"
             >
               <p className="my-1">Apply</p>
             </div>
