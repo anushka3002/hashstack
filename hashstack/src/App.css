@@ -140,8 +140,35 @@
   color: #79797C
 }
 
+.gray-400 {
+  color: #6D6D6E;
+}
+
+.gray-700 {
+  color: #4A4A4D;
+}
+
 .purple-100-bg {
   background-color: #F7F6FE;
+}
+
+.purple-200-bg {
+  background-color: #6A83DF;
+}
+
+.blue-300 {
+  background-color: #4336C4;
+  border: 1px solid #4336C4;
+}
+
+.blue-300:hover {
+  background-color: #FFFFFF;
+  color: #4336C4;
+  border: 1px solid #4336C4;
+} 
+
+.red-100 {
+  color: #B50628
 }
 
 @keyframes App-logo-spin {

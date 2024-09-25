@@ -1,47 +1,13 @@
-import AUDFlag from './images/AUDFlag.png'
-import USFlag from './images/USFlag.png'
-import EURFlag from './images/EURFlag.jpg'
-import IndiaFlag from './images/IndiaFlag.png'
+export const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
-export const currencies = [
-  {
-    country: "United States",
-    currency: "USD",
-    symbol: "$",
-    image: USFlag,
-    symbolName: "Dollar",
-    exchangeRateToEUR: 0.95,
-    exchangeRateToINR: 80.05,
-    exchangeRateToAUD: 1.56,
-  },
-  {
-    country: "European Union",
-    currency: "EUR",
-    symbol: "€",
-    image: EURFlag,
-    symbolName: "Euro",
-    exchangeRateToUSD: 1.05,
-    exchangeRateToINR: 87.45,
-    exchangeRateToAUD: 1.65,
-  },
-  {
-    country: "India",
-    currency: "INR",
-    symbol: "₹",
-    image: IndiaFlag,
-    symbolName: "Rupee",
-    exchangeRateToUSD: 0.012,
-    exchangeRateToEUR: 0.011,
-    exchangeRateToAUD: 0.0188,
-  },
-  {
-    country: "Australia",
-    currency: "AUD",
-    symbol: "A$",
-    image: AUDFlag,
-    symbolName: "Dollar",
-    exchangeRateToUSD: 0.67,
-    exchangeRateToEUR: 0.61,
-    exchangeRateToINR: 53.12,
-  },
-];
+export const formattedDate = (dateStr) => {
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const date = new Date(dateStr).toLocaleDateString('en-GB', options);
+  const [day, month, year] = date.split(' ');
+  return `${day} ${month}, ${year}`;
+};
