@@ -90,17 +90,20 @@ const HistoricData = ({ sourceValue, targetValue }) => {
   };
 
   const handleTimeInput = () => {
-    const start = formatDate(startValue);
-    const end = formatDate(endValue);
-    if (new Date(start) > new Date(end)) {
-      setErrorValue("greater");
-      onOpen();
-    } else if (startValue == "" || endValue == "") {
+    if (startValue == "" || endValue == "") {
       setErrorValue("empty");
       onOpen();
-    } else {
-      setSelectedTime("");
-      dispatch(historicExchangeAction(start, end, sourceValue, targetValue));
+    } else if (startValue && endValue) {
+      const start = formatDate(startValue);
+      const end = formatDate(endValue);
+      if (new Date(start) > new Date(end)) {
+        setErrorValue("greater");
+        onOpen();
+      } else {
+        setErrorValue("");
+        setSelectedTime("");
+        dispatch(historicExchangeAction(start, end, sourceValue, targetValue));
+      }
     }
   };
 
@@ -129,7 +132,7 @@ const HistoricData = ({ sourceValue, targetValue }) => {
   return (
     <div>
       <ErrorModal errorValue={errorValue} isOpen={isOpen} onClose={onClose} />
-      <div className={`${chartView ? '' : 'sticky top-0 bg-white'}`}>
+      <div className={`${chartView ? "" : "sticky top-0 bg-white"}`}>
         <div className="border-y-[0.1px] bg-white border-slate-200 flex flex-wrap justify-between mb-5">
           <div className="flex flex-wrap justify-center my-9">
             {timeRange.map((e) => {
@@ -147,35 +150,32 @@ const HistoricData = ({ sourceValue, targetValue }) => {
           </div>
           <div className="flex flex-wrap my-auto pb-5 pt-3">
             <div className="flex flex-wrap">
-            <div className="mr-3 pt-2">
-              <p className="gray-200 text-sm poppins-regular mb-1">
-                Start Date
-              </p>
-              <ReactDatePicker
-                className="z-20 border p-2 rounded-md text-sm poppins-regular"
-                selected={startValue}
-                onChange={(date) => setStartValue(date)}
-                placeholderText="DD/MM/YY"
-              />
-            </div>
-            <div className="mr-3 pt-2">
-              <p className="gray-200 text-sm poppins-regular mb-1">End Date</p>
-              <ReactDatePicker
-                className="z-20 border p-2 rounded-md text-sm poppins-regular"
-                selected={endValue}
-                onChange={(date) => setEndValue(date)}
-                placeholderText="DD/MM/YY"
-                popperClassName="datepicker-popper"
-              />
-            </div>
+              <div className="mr-3 pt-2">
+                <p className="gray-200 text-sm poppins-regular mb-1">
+                  Start Date
+                </p>
+                <ReactDatePicker
+                  className="z-20 border p-2 rounded-md text-sm poppins-regular"
+                  selected={startValue}
+                  onChange={(date) => setStartValue(date)}
+                  placeholderText="DD/MM/YY"
+                />
+              </div>
+              <div className="mr-3 pt-2">
+                <p className="gray-200 text-sm poppins-regular mb-1">
+                  End Date
+                </p>
+                <ReactDatePicker
+                  className="z-20 border p-2 rounded-md text-sm poppins-regular"
+                  selected={endValue}
+                  onChange={(date) => setEndValue(date)}
+                  placeholderText="DD/MM/YY"
+                  popperClassName="datepicker-popper"
+                />
+              </div>
             </div>
             <div
-              onClick={() => {
-                startValue && endValue
-                  ? handleTimeInput()
-                  : setErrorValue("empty");
-                onOpen();
-              }}
+              onClick={() => handleTimeInput()}
               className="border mx-auto rounded-md border-[#4336C4] mt-8 px-3 cursor-pointer duration-300 hover:text-white hover:bg-[#4336C4] text-[#4336C4]"
             >
               <p className="my-1">Apply</p>
