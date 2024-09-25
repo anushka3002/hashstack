@@ -175,7 +175,7 @@ const CurrencyConverter = () => {
                           const matchedCurrencyDetail =currencyDetailData?.data && currencyDetailData?.data.find(
                             (item) => item.currencies && item.currencies[e]
                           );                          
-                        return(<div onClick={() => {
+                        return(e != 'HRK' && <div onClick={() => {
                           setValue("source", e);
                           setSourceSymbol(matchedCurrencyDetail?.currencies[e].symbol)
                           setSourceValue(e);
@@ -254,7 +254,7 @@ const CurrencyConverter = () => {
                         const matchedCurrencyDetail =currencyDetailData?.data && currencyDetailData?.data.find(
                           (item) => item.currencies && item.currencies[e]
                         );                          
-                      return(<div onClick={() => {
+                      return(e != 'HRK' && <div onClick={() => {
                         setValue("target", e);
                         setTargetValue(e);
                         setTargetName(matchedCurrencyDetail?.currencies[e].name);
