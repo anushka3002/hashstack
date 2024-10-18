@@ -70,18 +70,18 @@ const CurrencyConverter = () => {
     setConvertedValue(exchangeData)
   },[exchangeData])
 
-  useEffect(() => {
-    const updateValue = () => {
-      setConvertedValue((prevValue) => {
-        let valueToUse = prevValue === 0 ? 0.01 : prevValue;
-        const changeFactor = 1 + (Math.random() < 0.5 ? -0.03 : 0.03);
-        let newValue = valueToUse * changeFactor;
-        return Math.max(0.01, Math.round(newValue * 100) / 100);
-      });
-    };
-    const intervalId = setInterval(updateValue, 1000);
-    return () => clearInterval(intervalId);
-  }, [exchangeData]);
+  // useEffect(() => {
+  //   const updateValue = () => {
+  //     setConvertedValue((prevValue) => {
+  //       let valueToUse = prevValue === 0 ? 0.01 : prevValue;
+  //       const changeFactor = 1 + (Math.random() < 0.5 ? -0.03 : 0.03);
+  //       let newValue = valueToUse * changeFactor;
+  //       return Math.max(0.01, Math.round(newValue * 100) / 100);
+  //     });
+  //   };
+  //   const intervalId = setInterval(updateValue, 1000);
+  //   return () => clearInterval(intervalId);
+  // }, [exchangeData]);
 
   return (
     <div
@@ -101,7 +101,7 @@ const CurrencyConverter = () => {
         >
           <div className="flex">
             <div className="w-full px-4">
-              <p className="poppins-regular text-white mt-4 text-center md:text-left">Currency.ex | Hashstack</p>
+              <p className="poppins-regular text-white mt-4 text-center md:text-left">Currency Exchange</p>
               <p className={`text-3xl transition-opacity duration-1000 ease-in-out ${isVisible ? 'opacity-100' : 'opacity-30'} poppins-bold text-white pt-10 md:pt-20 font-bold text-center`}>
                 Seamless Currency Conversion
               </p>
