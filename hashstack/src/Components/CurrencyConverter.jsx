@@ -114,7 +114,7 @@ const CurrencyConverter = () => {
           <div className="mt-20 mx-auto bg-white rounded-lg shadow-lg w-[100%] md:w-[80%] pt-5 pb-20 px-8">
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-wrap w-full justify-between">
-                <div className="w-[320px] pt-5">
+                <div className="w-[320px] md:w-[30%] pt-5">
                   <p className="poppins-medium">Amount</p>
                   <div className="w-[100%] flex border rounded-md shadow-sm mt-1">
                     <p className="my-auto ml-2">{sourceSymbol}</p>
@@ -144,7 +144,7 @@ const CurrencyConverter = () => {
                 </div>
 
                 {/* source currency */}
-                <div className="w-[320px] relative pt-5">
+                <div className="w-[320px] md:w-[30%] relative pt-5">
                   <p className="poppins-medium">Source currency</p>
                   <div
                     onClick={(e) => {
@@ -216,7 +216,7 @@ const CurrencyConverter = () => {
                 </div>
 
                   {/* target currency */}
-                <div className="w-[320px] relative pt-5">
+                <div className="w-[320px] md:w-[30%] relative pt-5">
                   <p className="poppins-medium">Target currency</p>
                   <div
                     onClick={(e) => {
