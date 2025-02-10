@@ -289,7 +289,7 @@ const CurrencyConverter = () => {
                     <img
                       width={"16px"}
                       height={"16px"}
-                      src="https://cdn.icon-icons.com/icons2/67/PNG/512/info_13213.png"
+                      src="https://img.icons8.com/ios7/600/info.png"
                     />
                   </div>
                   <p className="text-xs gray-200">
